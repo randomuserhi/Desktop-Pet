@@ -1,8 +1,6 @@
 #include "Deep.h"
 #include "Deep_Containers.h"
 #include "Deep_Math.h"
-#include "Deep_Engine.h"
-#include "Deep_String.h"
 
 // https://docs.microsoft.com/en-us/cpp/porting/modifying-winver-and-win32-winnt?view=msvc-170
 #define _WIN32_WINNT_WIN10 0x0A00
@@ -193,8 +191,11 @@ int main()
         TranslateMessage(&messages);
         DispatchMessage(&messages);
     }*/
+    int test = 0;
     while (running)
     {
+        SetLayeredWindowAttributes(windowHandle, 0, test, LWA_ALPHA);
+        test = (test + 1) % 255;
         if (PeekMessage(&messages, NULL, 0, 0, PM_REMOVE)) {
             TranslateMessage(&messages);
             DispatchMessage(&messages);
