@@ -72,13 +72,10 @@
     <ClCompile Include="Deep.c">
       <Filter>Source Files\Deep</Filter>
     </ClCompile>
-    <ClCompile Include="Deep_Engine.c">
-      <Filter>Source Files\Deep\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Deep_String.c">
       <Filter>Source Files\Deep</Filter>
     </ClCompile>
-    <ClCompile Include="Deep_Network_Window_Socket.c">
+    <ClCompile Include="Deep_Network_Windows_Socket.c">
       <Filter>Source Files\Deep\Network\Deep_Network_OS</Filter>
     </ClCompile>
     <ClCompile Include="Deep_Network_Windows_Server.c">
@@ -121,9 +118,6 @@
     </ClInclude>
     <ClInclude Include="Deep_Debug_Memory.h">
       <Filter>Header Files\Deep\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="Deep_Engine.h">
-      <Filter>Header Files\Deep\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Deep_Math.h">
       <Filter>Header Files\Deep\Engine\Math</Filter>

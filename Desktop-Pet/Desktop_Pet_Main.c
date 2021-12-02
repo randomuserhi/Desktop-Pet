@@ -11,6 +11,21 @@
 
 #include <dwmapi.h>
 
+void DrawCircle(int w, int h, double ori_x, double ori_y)
+{
+    glColor3f(0, 1, 1);
+    glBegin(GL_POLYGON);                        // Middle circle
+    double radius = 200;
+    int resolution = 100;
+    for (int i = 0; i <= resolution; i++) {
+        double angle = 2 * 3.141592654 * i / resolution;
+        double x = cos(angle) * radius;
+        double y = sin(angle) * radius;
+        glVertex2d(ori_x + x, ori_y + y);
+    }
+    glEnd();
+}
+
 HGLRC m_hrc;
 
 BOOL initSC() {
@@ -37,20 +52,20 @@ void resizeSC(int width, int height) {
     glLoadIdentity();
 }
 
-BOOL renderSC() {
+BOOL renderSC(GLdouble w, GLdouble h, double x, double y) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glMatrixMode(GL_PROJECTION);
     glPushMatrix();
 
-    glColor3f(0, 1, 1);
-    glBegin(GL_TRIANGLES);                              // Drawing Using Triangles
-    glColor3f(1.0f, 0.0f, 0.0f);                      // Set The Color To Red
-    glVertex3f(0.0f, 1.0f, 0.0f);                  // Top
-    glColor3f(0.0f, 1.0f, 0.0f);                      // Set The Color To Green
-    glVertex3f(-1.0f, -1.0f, 0.0f);                  // Bottom Left
-    glColor3f(0.0f, 0.0f, 1.0f);                      // Set The Color To Blue
-    glVertex3f(1.0f, -1.0f, 0.0f);                  // Bottom Right
-    glEnd();
+    glLoadIdentity();                           // Reset The Projection Matrix
+    glViewport(0, 0, (GLsizei)w, (GLsizei)h);
+    glOrtho(0, w, 0, h, -1, 1);                      // Set Up An Ortho Screen
+
+    glTranslated(0, 0, 0);
+    glScaled(1, 1, 0); // Scales from bottom left *bruh*
+
+    DrawCircle(w, h, x, y);
 
     glPopMatrix();
     glFlush();
@@ -177,13 +192,14 @@ int main()
     bb.fEnable = TRUE;
     DwmEnableBlurBehindWindow(windowHandle, &bb);
 
+    SetLayeredWindowAttributes(windowHandle, 0, 255, LWA_ALPHA);
+
     CreateHGLRC(windowHandle);
 
     HDC hdc = GetDC(windowHandle);
     wglMakeCurrent(hdc, m_hrc);
     initSC();
-    resizeSC(w, h);
-    ReleaseDC(windowHandle, hdc);
+    resizeSC(1920, 1080);
 
     MSG messages;
     /*while (GetMessage(&messages, NULL, 0, 0) > 0)
@@ -191,25 +207,23 @@ int main()
         TranslateMessage(&messages);
         DispatchMessage(&messages);
     }*/
-    int test = 0;
+
+    double x = w/2.0f, y = h/2.0f;
+    
     while (running)
     {
-        SetLayeredWindowAttributes(windowHandle, 0, test, LWA_ALPHA);
-        test = (test + 1) % 255;
         if (PeekMessage(&messages, NULL, 0, 0, PM_REMOVE)) {
             TranslateMessage(&messages);
             DispatchMessage(&messages);
         }
         else {
-            HDC hdc = GetDC(windowHandle);
-            wglMakeCurrent(hdc, m_hrc);
-
-            renderSC();
-
+            //x += 0.1f;
+            renderSC(w, h, x, y);
             SwapBuffers(hdc);
-            ReleaseDC(windowHandle, hdc);
         }
     }
+
+    ReleaseDC(windowHandle, hdc);
     DeleteObject(windowHandle); //doing it just in case
 
 #ifdef DEEP_DEBUG_MEMORY

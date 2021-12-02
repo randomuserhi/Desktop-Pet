@@ -186,15 +186,11 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Deep.c" />
-    <ClCompile Include="Deep_Engine.c">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Deep_Network_Windows_Server.c">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Deep_Network_Window_Socket.c">
+    <ClCompile Include="Deep_Network_Windows_Socket.c">
       <SubType>
       </SubType>
     </ClCompile>
@@ -211,7 +207,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Deep_DynArray.h" />
-    <ClInclude Include="Deep_Engine.h" />
     <ClInclude Include="Deep_Math.h" />
     <ClInclude Include="Deep_Modules.h">
       <SubType>
